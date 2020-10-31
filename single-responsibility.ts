@@ -30,8 +30,23 @@ const usersDb = [
 ]
 
 // Bad implementation
-class User {
-  formatResponse(data) {
+interface DataStructure {
+  name: string
+  userName: string
+  rank: number
+  score: number
+}
+
+interface UserType {
+  user_id: string
+  username: string
+  name: string
+  score: number
+  rank: number
+}
+
+class UserBad {
+  formatResponse(data: DataStructure) {
     return {
       name: data.name,
       userName: data.userName,
@@ -40,12 +55,12 @@ class User {
     }
   }
 
-  validateUser(user) {
+  validateUser(user: UserType) {
     if (user) return true
     throw new Error('User does not exist')
   }
 
-  fetchUserFromDatabase(userId) {
+  fetchUserFromDatabase(userId: string) {
     return usersDb.find(user => user.user_id === userId)
   }
 }
@@ -53,7 +68,7 @@ class User {
 // Single responsibility Classes
 
 class User {
-  formatResponse(data) {
+  formatResponse(data: DataStructure) {
     return {
       name: data.name,
       userName: data.userName,
@@ -64,14 +79,14 @@ class User {
 }
 
 class ValidateUser {
-  validate(user) {
+  validate(user: UserType) {
     if (user) return true
     throw new Error('User does not exist')
   }
 }
 
 class UserRepository {
-  get(userId) {
+  get(userId: string) {
     return usersDb.find(user => user.user_id === userId)
   }
 }
