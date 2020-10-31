@@ -31,30 +31,34 @@ class DocProcessorBad {
   }
 }
 
-class Invoice {
+interface IDoc {
+  process(): void
+}
+
+interface IDocProcessor {
+  processDocs(docs: Array<IDoc>): void
+}
+
+class Invoice implements IDoc {
   process() {
     console.log('SEND')
   }
 }
 
-class Receipt {
+class Receipt implements IDoc {
   process() {
     console.log('ARCHIVE')
   }
 }
 
-class Memo {
+class Memo implements IDoc {
   process() {
     console.log('MARK AS READ')
   }
 }
 
-interface Doc {
-  process(): void
-}
-
-class DocProcessor {
-  processDocs(docs: Array<Doc>) {
+class DocProcessor implements IDocProcessor {
+  processDocs(docs: Array<IDoc>) {
     docs.forEach(doc => {
       doc.process()
     })
